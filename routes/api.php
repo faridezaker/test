@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\V1\CourseContoller;
 Route::prefix('V1')->middleware('auth:sanctum')->group(function () {
     Route::get('courses', [CourseContoller::class, 'index']);
     Route::get('courses/{course}', [CourseContoller::class, 'show']);
+    Route::post('courses', [CourseContoller::class, 'store']);
 });
 
 Route::get('/auth', function () {
@@ -35,5 +36,11 @@ Route::get('/auth', function () {
 //    $permission = $create_role->givePermissionTo($create_permission);
 //    $role = $user->syncRoles($create_role);
 
+    // حذف تمامی نقش‌ها از کاربر
+    //$user->syncRoles([]);
 
+// حذف تمامی دسترسی‌ها از کاربر (در صورت تخصیص مستقیم)
+   // $user->syncPermissions([]);
+    //$user->removeRole('مدیر'); // نام نقش
+    //$user->revokePermissionTo('edit articles'); // نام دسترسی
 });

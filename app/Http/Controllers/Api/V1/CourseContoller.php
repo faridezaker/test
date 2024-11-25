@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCourseRequest;
 use App\Http\Resources\Api\V1\CourseCollection;
 use App\Http\Resources\Api\V1\CourseResource;
 use App\Models\course;
@@ -17,7 +18,7 @@ class CourseContoller extends Controller
     public $course;
     public function __construct(CourseService $courseService)
     {
-        $this->middleware('permission:show courses')->only(['index']);
+        //$this->middleware('permission:show courses')->only(['index']);
         $this->course = $courseService;
     }
 
@@ -29,9 +30,14 @@ class CourseContoller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        //
+        $course = Course::create(array_merge(
+            $request->validated(),
+            ['user_id' => auth()->id()]
+        ));
+
+        return response()->json(['message' => 'Course created successfully', 'course' => $course]);
     }
 
     /**
